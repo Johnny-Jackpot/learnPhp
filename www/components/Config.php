@@ -12,9 +12,12 @@ class Config
     private $dbPassword;
     private $routes;
 
+    /**
+     * Config constructor.
+     */
     public function __construct()
     {
-        $this->setConfig(ROOT . DIRECTORY_SEPARATOR . 'config');
+        $this->initConfig(ROOT . DIRECTORY_SEPARATOR . 'config');
     }
 
     private function loopThroughFiles(array $files, &$dbParamsExists, &$routesExists)
@@ -54,6 +57,15 @@ class Config
         $this->dbPassword = $params['password'];
     }
 
+    public function getDbParams(): array
+    {
+        return [
+            'dsn' => $this->dsn,
+            'user' => $this->dbUser,
+            'password' => $this->dbPassword
+        ];
+    }
+
     public function getRoutes(): array
     {
         return $this->routes;
@@ -65,9 +77,9 @@ class Config
     }
 
     /**
-     * @param string $path Path to config directory
+     * @param string $path - Path to config directory
      */
-    public function setConfig(string $path)
+    private function initConfig(string $path)
     {
         $path = str_replace('/', DIRECTORY_SEPARATOR, $path);
         $files = scandir($path, SCANDIR_SORT_ASCENDING );
@@ -76,12 +88,4 @@ class Config
         $this->setRoutes($path . DIRECTORY_SEPARATOR . self::CONFIG_ROUTES);
     }
 
-    public function getDbParams(): array
-    {
-        return [
-            'dsn' => $this->dsn,
-            'user' => $this->dbUser,
-            'password' => $this->dbPassword
-        ];
-    }
 }

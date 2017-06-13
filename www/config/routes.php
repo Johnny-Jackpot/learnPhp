@@ -1,6 +1,9 @@
 <?php
 
 return [
-    'actorsOnStudios' => 'main/actorsOnStudios',
-    '' => 'main/index' //actionIndex in MainController
+    'studios_statistics' => 'StudiosStatisticsController',
+    'non_namesakes_actors' => 'NonNameSakesController',
+    'actors_on_studios' => 'ActorsOnStudiosController',
+    'actors_fees' => 'ActorsFeesController',
+    '' => 'MainController'
 ];

@@ -1,4 +1,8 @@
-<?php if(count($studiosStatistics)): ?>
+<?php
+    if(isset($studiosStatistics)
+        && !empty($studiosStatistics)
+        && count($studiosStatistics)):
+?>
     <table>
         <caption>Studios statistics</caption>
         <tr>

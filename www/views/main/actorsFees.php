@@ -1,4 +1,8 @@
-<?php if(count($actorsFees)): ?>
+<?php
+    if(isset($actorsFees)
+        && !empty($actorsFees)
+        && count($actorsFees)):
+?>
     <table>
         <caption>Actors fees who are from <?php echo $actorsYearsFrom; ?> to
             <?php echo $actorsYearsTo; ?> years old</caption>

@@ -11,8 +11,8 @@
 
 <?php if (count($studiosList)): ?>
     <p>Please, select studio you need.</p>
-    <form action="/actorsOnStudios" method="post">
-        <select name="studioName">
+    <form action="/actors_on_studios" method="get">
+        <select name="studio_name">
             <?php foreach($studiosList as $studio):?>
                 <option
                         value="<?php echo $studio['name']; ?>"

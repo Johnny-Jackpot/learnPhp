@@ -2,16 +2,19 @@
 
 namespace Components;
 
+use Components\Http\ResponseInterface;
+use Components\Http\HtmlResponse;
+use Controllers\ControllerInterface;
+use Controllers\MainController;
+
 class Router
 {
     /**
-     * @var array Path to file where routes live
+     * @return array
      */
-    protected $routes;
-
-    public function setRoutes(array $routes)
+    public function getRoutesConfig(): array
     {
-        $this->routes = $routes;
+        return App::getConfig()->getRoutes();
     }
 
     /**
@@ -20,7 +23,7 @@ class Router
      */
     protected function getUri(): string
     {
-        if (empty($_SERVER['REQUEST_URI'])) {
+        if (!isset($_SERVER['REQUEST_URI']) || empty($_SERVER['REQUEST_URI'])) {
             return '';
         }
 
@@ -40,12 +43,10 @@ class Router
     {
         $internalRoute = preg_replace("~$uriPattern~", $path, $uri);
         $segments = explode('/', $internalRoute);
-        $controllerName = array_shift($segments) . 'Controller';
-        $controllerName = ucfirst($controllerName);
-        $actionName = 'action' . ucfirst(array_shift($segments));
+        $controllerName = array_shift($segments);
         $parameters = $segments;
 
-        return [$controllerName, $actionName, $parameters];
+        return [$controllerName, $parameters];
     }
 
     /**
@@ -54,12 +55,13 @@ class Router
      * @param $controller
      * @param string $actionName
      * @param array $parameters
-     * @return bool
+     * @return ResponseInterface
      */
     protected function callAction(
-        \Controllers\MainController $controller,
+        ControllerInterface $controller,
         string $actionName,
-        array $parameters): bool
+        array $parameters
+    ):ResponseInterface
     {
         return call_user_func_array(
             array($controller, $actionName),
@@ -75,26 +77,44 @@ class Router
     {
         $uri = $this->getUri();
 
-        foreach ($this->routes as $uriPattern => $path) {
-            /**
-             **  preg_match return true if $uriPattern === 'any string' &&
-             **  $uri === '' (empty string)
-             */
-            if (!preg_match("~$uriPattern~", $uri)) continue;
-            list($controllerName, $actionName, $parameters) = $this->getUriParts($uriPattern, $path, $uri);
+        foreach ($this->getRoutesConfig() as $uriPattern => $path) {
+
+            if (!preg_match("~$uriPattern~", $uri)) {
+                continue;
+            }
+
+            if ('' === $uriPattern && $uri !== $uriPattern) {
+                break;
+            }
+
+            list($controllerName, $parameters) = $this->getUriParts($uriPattern, $path, $uri);
 
             $className = "\Controllers\\$controllerName";
             $controller = new $className;
+            $method = 'execute';
 
-            if (!method_exists($controller, $actionName)) continue;
-            $result = $this->callAction($controller, $actionName, $parameters);
+            if (!method_exists($controller, $method)) {
+                continue;
+            }
 
-            if (null != $result) return;
+            if ($response = $this->callAction($controller, $method, $parameters)) {
+                $response->send();
+                return;
+            }
+            break;
         }
 
-        http_response_code(404);
+        $response = $this->sendNotFoundResponse();
+        $response->send();
+    }
+
+    private function sendNotFoundResponse(): ResponseInterface
+    {
         $template = str_replace('/', DIRECTORY_SEPARATOR, ROOT . '/views/404.php');
         $view = new View($template);
-        echo $view->render();
+        $response = new HtmlResponse();
+
+        return $response->setHeader('HTTP/1.1 404 Not Found', true, 404)
+                        ->setBody($view->render());
     }
 }

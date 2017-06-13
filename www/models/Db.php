@@ -2,6 +2,7 @@
 
 namespace Models;
 use \PDO;
+use Components\App;
 
 class Db
 {
@@ -11,25 +12,16 @@ class Db
     static private $connection;
 
     /**
-     * @var array
-     */
-    static private $dbParams;
-
-    static public function setDbParams(array $params)
-    {
-        self::$dbParams = $params;
-    }
-
-    /**
      * @return \PDO
      */
     protected function getConnection(): \PDO
     {
         if (null === self::$connection) {
+            $dbParams = App::getConfig()->getDbParams();
             self::$connection = new PDO(
-                self::$dbParams['dsn'],
-                self::$dbParams['user'],
-                self::$dbParams['password']
+                $dbParams['dsn'],
+                $dbParams['user'],
+                $dbParams['password']
             );
             self::$connection->exec('set names utf8');
         }
@@ -48,7 +40,7 @@ class Db
      */
     public function getActorsFees(int $from, int $to): array
     {
-        $sql = "
+        $sql = <<<SQL
           SELECT
             CONCAT(actors.name, ' ', actors.surname) AS actor_full_name, 
             SUM(films_actors.fee) AS total_fees
@@ -58,7 +50,8 @@ class Db
           WHERE ADDDATE(CURDATE(), INTERVAL -:to YEAR) <= actors.dob 
             AND actors.dob <= ADDDATE(CURDATE(), INTERVAL -:from YEAR)
           GROUP BY actors.id
-          ORDER BY total_fees DESC;";
+          ORDER BY total_fees DESC;
+SQL;
         $result = $this->getConnection()->prepare($sql);
         $result->bindParam(':to', $to, PDO::PARAM_INT);
         $result->bindParam(':from', $from, PDO::PARAM_INT);
