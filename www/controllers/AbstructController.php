@@ -26,4 +26,14 @@ abstract class AbstructController implements ControllerInterface
     {
         return str_replace('/', DIRECTORY_SEPARATOR, $path);
     }
+
+    /**
+     *
+     * @return bool
+     */
+    protected function isXHR(): bool
+    {
+        return isset($_SERVER['HTTP_X_REQUESTED_WITH']) &&
+            $_SERVER['HTTP_X_REQUESTED_WITH'] == 'XMLHttpRequest';
+    }
 }

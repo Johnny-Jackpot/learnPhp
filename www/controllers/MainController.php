@@ -23,7 +23,7 @@ class MainController extends AbstructController
         $years = 10;
         $studiosStatistics = $this->db->getStudiosStatistics($years);
 
-        $view = $this->preparePathToFile(ROOT . '/views/main.php');
+        $template = $this->preparePathToFile(ROOT . '/templates/t_main.php');
         $data = [
             'actorsYearsFrom' => $actorsYearsFrom,
             'actorsYearsTo' => $actorsYearsTo,
@@ -32,7 +32,7 @@ class MainController extends AbstructController
             'studiosStatistics' => $studiosStatistics
         ];
 
-        $view = new View($view);
+        $view = new View($template);
         $response = new HtmlResponse();
 
         return $response->setBody($view->render($data));

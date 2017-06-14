@@ -12,30 +12,28 @@ class ActorsOnStudiosController extends AbstructController
     /**
      * Handle request for rendering data from 2-d sql query
      * where form is needed
+     *
+     * Route: /actors_on_studios
+     *
      * @return ResponseInterface
      */
     public function execute(): ResponseInterface
     {
-        //TODO send base html with JS for AJAX
-
-        $template = $this->preparePathToFile(ROOT . '/views/actorsOnStudios.php');
-        $view = new View($template);
+        $template = $this->preparePathToFile(ROOT . '/templates/t_actors_on_studios.php');
+        $view = $this->preparePathToFile(ROOT . '/views/v_actors_on_studios.php');
+        $html = new View($template, $view);
         $response = new HtmlResponse();
-        $data = [
-            'studiosList' => [],
-            'actorsOnStudiosInfo' => [],
-            'activeStudio' => null
-        ];
+        $data = ['studiosList' => []];
 
         $studiosList = $this->db->getStudiosList();
 
         if (!count($studiosList)) {
-            return $response->setBody($view->render($data));
+            return $response->setBody($html->render($data));
         }
 
-        $data = $this->prepareActorsOnStudiosData($data, $studiosList);
+        $data = ['studiosList' => $studiosList];
 
-        return $response->setBody($view->render($data));
+        return $response->setBody($html->render($data));
     }
 
 }
