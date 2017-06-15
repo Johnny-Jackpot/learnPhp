@@ -7,7 +7,7 @@ use Components\Http\ResponseInterface;
 use Components\Http\HtmlResponse;
 use Components\View;
 
-class ActorsOnStudiosAjaxController extends AbstructController
+class ActorsOnStudiosAjaxController extends AbstractController
 {
     /**
      * Handle request for rendering data from 2-d sql query
@@ -49,5 +49,4 @@ class ActorsOnStudiosAjaxController extends AbstructController
 
         return $data;
     }
-
 }

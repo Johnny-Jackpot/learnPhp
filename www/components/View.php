@@ -58,6 +58,7 @@ class View
             include $this->view;
         }
     }
+
     /**
      * Embed piece of html into view
      * @param string $block Path to file
@@ -74,13 +75,25 @@ class View
      * @param string $name Variable name
      * @return mixed|null
      */
-    public function getVar(string $name)
+    public function getVar(string $name, $default = null)
     {
         if (isset($this->data[$name]) && !empty($this->data[$name])) {
-            return $this->data[$name];
+
+            $data = $this->data[$name];
+
+            if (null !== $data || ($data === null && !$default)) {
+                return $data;
+            }
+
+            if (is_numeric($default)) {
+                return (float) $default;
+            } elseif (is_array($default)) {
+                $data = (array) $default;
+            }
+
+            return $data;
         }
 
         return null;
     }
-
 }

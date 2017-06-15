@@ -6,7 +6,7 @@ use Components\Http\HtmlResponse;
 use Components\Http\ResponseInterface;
 use Components\View;
 
-class StudiosStatisticsController extends AbstructController
+class StudiosStatisticsController extends AbstractController
 {
     public function execute(): ResponseInterface
     {

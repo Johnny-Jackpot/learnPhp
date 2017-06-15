@@ -5,7 +5,6 @@ namespace Components;
 use Components\Http\ResponseInterface;
 use Components\Http\HtmlResponse;
 use Controllers\ControllerInterface;
-use Controllers\MainController;
 
 class Router
 {

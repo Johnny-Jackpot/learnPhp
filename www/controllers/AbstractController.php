@@ -4,7 +4,7 @@ namespace Controllers;
 
 use \Models\Db;
 
-abstract class AbstructController implements ControllerInterface
+abstract class AbstractController implements ControllerInterface
 {
     /**
      * store \models\Db instance
@@ -34,6 +34,6 @@ abstract class AbstructController implements ControllerInterface
     protected function isXHR(): bool
     {
         return isset($_SERVER['HTTP_X_REQUESTED_WITH']) &&
-            $_SERVER['HTTP_X_REQUESTED_WITH'] == 'XMLHttpRequest';
+            $_SERVER['HTTP_X_REQUESTED_WITH'] === 'XMLHttpRequest';
     }
 }

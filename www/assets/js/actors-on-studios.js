@@ -197,33 +197,17 @@
             return $(this.form).serialize();
         };
 
-        /**
-         *
-         * @param varName {string}
-         * @returns {string}
-         * @private
-         */
-        App.prototype._getQueryVar = function(varName) {
-            var queryStr = decodeURI(window.location.search) + '&';
-            var regex = new RegExp('.*?[&\\?]' + varName + '=(.*?)&.*');
-            var val = queryStr.replace(regex, "$1");
-
-            return queryStr === val ? '' : val;
-        };
-
         /***********************************************/
 
         var settings = {
             path: 'get_actors_statistics',
-            tableContainer: '#statisticsContainer',
-            form: '#actorsOnStudios',
-            submitButton: '#getStatistics',
+            tableContainer: '#statistics-container',
+            form: '#actors-on-studios',
+            submitButton: '#get-statistics',
             table: '#statistics',
-            select: '#actorsOnStudiosSelect'
+            select: '#actors-on-studios-select'
         };
         var app = new App(settings);
         app.run();
-
-
     });
 })();

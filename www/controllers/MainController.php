@@ -6,7 +6,7 @@ use Components\Http\HtmlResponse;
 use Components\Http\ResponseInterface;
 use Components\View;
 
-class MainController extends AbstructController
+class MainController extends AbstractController
 {
     /**
      * Handle request for rendering data from 1,3,4-th queries

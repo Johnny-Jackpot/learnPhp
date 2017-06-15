@@ -6,7 +6,7 @@ use Components\Http\HtmlResponse;
 use Components\Http\ResponseInterface;
 use Components\View;
 
-class ActorsFeesController extends AbstructController
+class ActorsFeesController extends AbstractController
 {
     /**
      * @return ResponseInterface

@@ -6,7 +6,7 @@ use Components\Http\HtmlResponse;
 use Components\Http\ResponseInterface;
 use Components\View;
 
-class NonNameSakesController extends AbstructController
+class NonNameSakesController extends AbstractController
 {
     public function execute(): ResponseInterface
     {

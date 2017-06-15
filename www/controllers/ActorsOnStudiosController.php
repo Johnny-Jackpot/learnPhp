@@ -7,7 +7,7 @@ use Components\Http\JsonResponse;
 use Components\Http\ResponseInterface;
 use Components\View;
 
-class ActorsOnStudiosController extends AbstructController
+class ActorsOnStudiosController extends AbstractController
 {
     /**
      * Handle request for rendering data from 2-d sql query
