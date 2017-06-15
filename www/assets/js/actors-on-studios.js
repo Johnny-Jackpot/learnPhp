@@ -11,6 +11,7 @@
          *        settings.table          string    ID of table element where stats placed
          *        settings.form           string    ID of Form element
          *        settings.submitButton   string    ID of submit button for attaching event handlers
+         *        settings.select         string    ID of select element for setup selected option
          * @constructor
          */
         function App(settings) {
@@ -19,6 +20,7 @@
             this.table = settings.table || '';
             this.form = settings.form || '';
             this.submitButton = settings.submitButton || '';
+            this.select = settings.select || '';
             this.search = '';
             this.requestUri = '';
         }
@@ -36,6 +38,7 @@
             this.search = search;
             var url = this.path + this.search;
             this._loadStatistics(url, false);
+            this._updateSelecOption();
         };
 
         /**
@@ -109,6 +112,7 @@
             $(window).bind('popstate', function() {
                 var url = this.path + window.location.search;
                 this._updateStatistics(url, false);
+                this._updateSelecOption();
             }.bind(this));
         };
 
@@ -210,6 +214,12 @@
             var regex = new RegExp('.*?[&\\?]' + varName + '=(.*?)&.*');
             var val = queryStr.replace(regex, "$1");
             return queryStr === val ? '' : val;
+        };
+
+        App.prototype._updateSelecOption = function() {
+            var studio = this._getQueryVar('studio_name');
+            var selector = this.select + ' option[value="' + studio + '"]';
+            $(selector).prop('selected', true);
         };
 
         /***********************************************/
