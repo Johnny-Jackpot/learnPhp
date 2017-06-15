@@ -3,19 +3,24 @@
 (function(){
     $(document).ready(function() {
 
+        /**
+         *
+         * @param settings              object
+         *        settings.path         string    Pathname for AJAX requests
+         *        settings.container    string    ID of DOM element where table placed
+         *        settings.form         string    ID of Form element
+         *        settings.submitButton string    ID of submit button for attaching event handlers
+         * @constructor
+         */
         function App(settings) {
             this.path = settings.path || '';
             this.container = settings.container || '';
             this.form = settings.form || '';
             this.submitButton = settings.submitButton || '';
-            this.select = settings.select || '';
             this.search = '';
             this.requestUri = '';
         }
 
-        /**
-         * Initial load statistics
-         */
         App.prototype.run = function() {
             this._init();
             this._setEventHandlers();
@@ -29,7 +34,6 @@
             this.search = search;
             var url = this.path + this.search;
             this._loadStatistics(url, false);
-            this._updateSelectedStudio();
         };
 
         /**
@@ -39,7 +43,6 @@
             var studio = this._getStudio();
             var url = url ? url : this._getRequestUri(studio);
             this._loadStatistics(url, updateUri);
-            this._updateSelectedStudio();
         };
 
         /**
@@ -60,7 +63,7 @@
 
         /**
          *
-         * @param data
+         * @param data object
          * @private
          */
         App.prototype._onSuccessedRequest = function (data) {
@@ -99,8 +102,8 @@
         };
 
         App.prototype._setOnpopstate = function() {
-            $(window).bind('popstate', function(event) {
-                var url = this.path + event.originalEvent.state.search;
+            $(window).bind('popstate', function() {
+                var url = this.path + window.location.search;
                 this._updateStatistics(url, false);
             }.bind(this));
         };
@@ -125,7 +128,12 @@
         App.prototype._renderData = function(data) {
             var statistics = data.actorsOnStudiosInfo;
             var rows = '<tr><th>Studio</th><th>Actor</th><th>Films</th></tr>';
+            rows += this._generateRows(statistics);
+            this._updateTable(rows);
+        };
 
+        App.prototype._generateRows = function(statistics) {
+            var rows = '';
             $(statistics).each(function(index, element) {
                 var row = "<tr><td>:studio</td><td>:actor</td><td>:films</td></tr>";
                 row = row.replace(':studio', element.studio);
@@ -134,6 +142,10 @@
                 rows += row;
             });
 
+            return rows;
+        };
+
+        App.prototype._updateTable = function(rows) {
             $(this.container).html($('<table/>', {
                 html: rows
             }));
@@ -155,22 +167,6 @@
          */
         App.prototype._getStudio = function() {
             return $(this.form).serialize();
-        };
-
-        App.prototype._updateSelectedStudio = function() {
-            var paramToSearch = 'studio_name';
-
-            var studio = this._getQueryVar(paramToSearch);
-            console.log(studio);
-            var options = $(this.select).children();
-            options.each(function(index, element) {
-                $(element).removeAttr('selected');
-            });
-            options.each(function(index, element) {
-                if ($(element).val() === studio) {
-                    $(element).attr('selected','selected');
-                }
-            });
         };
 
         /**
@@ -198,7 +194,6 @@
         };
         var app = new App(settings);
         app.run();
-
 
 
     });
