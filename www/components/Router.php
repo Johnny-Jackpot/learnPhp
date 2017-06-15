@@ -110,8 +110,9 @@ class Router
 
     private function sendNotFoundResponse(): ResponseInterface
     {
-        $template = str_replace('/', DIRECTORY_SEPARATOR, ROOT . '/views/404.php');
-        $view = new View($template);
+        $template = str_replace('/', DIRECTORY_SEPARATOR, ROOT . '/templates/404.php');
+        $view = str_replace('/', DIRECTORY_SEPARATOR, ROOT . '/views/404.php');
+        $view = new View($template, $view);
         $response = new HtmlResponse();
 
         return $response->setHeader('HTTP/1.1 404 Not Found', true, 404)

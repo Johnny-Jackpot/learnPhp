@@ -1,13 +1,17 @@
+<div class="row">
+    <div class="col-md-4 col-md-offset-4">
+
 <?php
+    $nonNameSakeActors = $this->getVar('nonNameSakeActors');
     if(isset($nonNameSakeActors)
         && !empty($nonNameSakeActors)
         && count($nonNameSakeActors)):
 ?>
-    <table>
+    <table class="table table-bordered table-hover">
         <caption>Actors who hasn't namesakes</caption>
         <tr>
             <th>#</th>
-            <th>full name</th>
+            <th>Full name</th>
         </tr>
         <?php for ($i = 0; $i < count($nonNameSakeActors); $i++): ?>
             <tr>
@@ -19,3 +23,6 @@
 <?php else: ?>
     <p>There is no any actor who fit the requirements.</p>
 <?php endif; ?>
+
+    </div>
+</div>

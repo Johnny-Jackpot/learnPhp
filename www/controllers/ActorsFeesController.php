@@ -22,8 +22,9 @@ class ActorsFeesController extends AbstructController
             'actorsFees' => $actorsFees
         ];
 
-        $template = $this->preparePathToFile(ROOT . '/views/main/actorsFees.php');
-        $view = new View($template);
+        $template = $this->preparePathToFile(ROOT . '/templates/t_main.php');
+        $view = $this->preparePathToFile(ROOT . '/views/v_actors_fees.php');
+        $view = new View($template, $view);
         $response = new HtmlResponse();
 
         return $response->setBody($view->render($data));

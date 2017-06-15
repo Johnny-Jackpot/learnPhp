@@ -1,0 +1,35 @@
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+    min-height: 100%;
+    position: relative;
+}
+
+body {
+    /* Margin bottom by footer height */
+    margin-bottom: 60px;
+}
+
+.footer {
+    background-color: #222;
+    bottom: 0;
+    color: #fff;
+    height: 60px;
+    padding-top: 10px;
+    position: absolute;
+    width: 100%;
+}
+
+.footer-info {
+    text-align: center;
+}
+
+/*----------------------*/
+
+.table,
+table caption,
+table th {
+    text-align: center;
+}
+
+

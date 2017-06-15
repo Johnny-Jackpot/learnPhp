@@ -1,11 +1,15 @@
+<div class="row">
+    <div class="col-md-4 col-md-offset-4">
+
 <?php
+    $actorsFees = $this->getVar('actorsFees');
     if(isset($actorsFees)
         && !empty($actorsFees)
         && count($actorsFees)):
 ?>
-    <table>
-        <caption>Actors fees who are from <?php echo $actorsYearsFrom; ?> to
-            <?php echo $actorsYearsTo; ?> years old</caption>
+    <table class="table table-bordered table-hover">
+        <caption>Actors fees who are from <?php echo $this->getVar('actorsYearsFrom'); ?> to
+            <?php echo $this->getVar('actorsYearsTo'); ?> years old</caption>
         <tr>
             <th>Full name</th>
             <th>Sum of fees</th>
@@ -20,3 +24,6 @@
 <?php else: ?>
     <p>There is no any actor who fit the requirements.</p>
 <?php endif; ?>
+
+    </div>
+</div>

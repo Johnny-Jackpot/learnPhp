@@ -12,8 +12,9 @@ class NonNameSakesController extends AbstructController
     {
         $nonNameSakeActors = $this->db->getNonNameSakeActors();
         $data = ['nonNameSakeActors' => $nonNameSakeActors];
-        $template = $this->preparePathToFile(ROOT . '/views/main/nonNameSakeActors.php');
-        $view = new View($template);
+        $template = $this->preparePathToFile(ROOT . '/templates/t_main.php');
+        $view = $this->preparePathToFile(ROOT . '/views/v_non_name_sake_actors.php');
+        $view = new View($template, $view);
         $response = new HtmlResponse();
 
         return $response->setBody($view->render($data));

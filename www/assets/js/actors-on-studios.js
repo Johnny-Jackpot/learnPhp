@@ -5,16 +5,18 @@
 
         /**
          *
-         * @param settings              object
-         *        settings.path         string    Pathname for AJAX requests
-         *        settings.container    string    ID of DOM element where table placed
-         *        settings.form         string    ID of Form element
-         *        settings.submitButton string    ID of submit button for attaching event handlers
+         * @param settings                object
+         *        settings.path           string    Pathname for AJAX requests
+         *        settings.tableContainer string    ID of div that contain table
+         *        settings.table          string    ID of table element where stats placed
+         *        settings.form           string    ID of Form element
+         *        settings.submitButton   string    ID of submit button for attaching event handlers
          * @constructor
          */
         function App(settings) {
             this.path = settings.path || '';
-            this.container = settings.container || '';
+            this.tableContainer = settings.tableContainer || '';
+            this.table = settings.table || '';
             this.form = settings.form || '';
             this.submitButton = settings.submitButton || '';
             this.search = '';
@@ -127,9 +129,35 @@
          */
         App.prototype._renderData = function(data) {
             var statistics = data.actorsOnStudiosInfo;
+
+            if (!statistics.length) {
+                this._updateTable('');
+                var message = 'No data for this studio. Please check URL.'
+                this._renderAlert(this.tableContainer, message);
+                return;
+            }
+
             var rows = '<tr><th>Studio</th><th>Actor</th><th>Films</th></tr>';
             rows += this._generateRows(statistics);
             this._updateTable(rows);
+        };
+
+        /**
+         *
+         * @param target string ID of element where prepend alert
+         * @param message string Alert message
+         * @private
+         */
+        App.prototype._renderAlert = function(target, message) {
+            if ($('#noData')[0]) return;
+
+            $(target).prepend(
+                '<div id="alert" class="alert alert-danger" role="alert">'
+                + message
+                + '</div>');
+            setTimeout(function () {
+                $('#alert').remove();
+            }, 5000);
         };
 
         App.prototype._generateRows = function(statistics) {
@@ -146,7 +174,7 @@
         };
 
         App.prototype._updateTable = function(rows) {
-            $(this.container).html($('<table/>', {
+            $(this.table).html($('<tbody/>', {
                 html: rows
             }));
         };
@@ -187,9 +215,10 @@
 
         var settings = {
             path: 'get_actors_statistics',
+            tableContainer: '#statisticsContainer',
             form: '#actorsOnStudios',
             submitButton: '#getStatistics',
-            container: '#statistics',
+            table: '#statistics',
             select: '#actorsOnStudiosSelect'
         };
         var app = new App(settings);

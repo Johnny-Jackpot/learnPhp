@@ -16,14 +16,15 @@ class ActorsOnStudiosAjaxController extends AbstructController
      */
     public function execute(): ResponseInterface
     {
-        /*if (!$this->isXHR()) {
-            $template = $this->preparePathToFile(ROOT . '/views/501notImplemented.php');
-            $view = new View($template);
+        if (!$this->isXHR()) {
+            $template = $this->preparePathToFile(ROOT . '/templates/main.php');
+            $view = $this->preparePathToFile(ROOT . '/views/v_501_not_implemented.php');
+            $view = new View($template, $view);
             $response = new HtmlResponse();
 
             return $response->setHeader('HTTP/1.1 501 Not Implemented', true, 403)
                             ->setBody($view->render());
-        }*/
+        }
 
         $data = $this->getStatistics();
         $response = new JsonResponse();

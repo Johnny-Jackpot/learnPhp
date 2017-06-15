@@ -14,26 +14,19 @@ class MainController extends AbstructController
      */
     public function execute(): ResponseInterface
     {
-        $actorsYearsFrom = 40;
-        $actorsYearsTo = 60;
-        $actorsFees = $this->db->getActorsFees($actorsYearsFrom, $actorsYearsTo);
-
-        $nonNameSakeActors = $this->db->getNonNameSakeActors();
-
-        $years = 10;
-        $studiosStatistics = $this->db->getStudiosStatistics($years);
-
         $template = $this->preparePathToFile(ROOT . '/templates/t_main.php');
-        $data = [
-            'actorsYearsFrom' => $actorsYearsFrom,
-            'actorsYearsTo' => $actorsYearsTo,
-            'actorsFees' => $actorsFees,
-            'nonNameSakeActors' => $nonNameSakeActors,
-            'studiosStatistics' => $studiosStatistics
-        ];
-
-        $view = new View($template);
+        $view = $this->preparePathToFile(ROOT . '/views/v_main.php');
+        $view = new View($template, $view);
         $response = new HtmlResponse();
+
+        $pathname = '/actors_on_studios';
+        $studios = $this->db->getStudiosList();
+        $linksToStudios = $this->db->generateLinksForActorsOnStudio($studios, $pathname);
+
+        $data = [
+            'studios' => $studios,
+            'links_to_studios' => $linksToStudios
+        ];
 
         return $response->setBody($view->render($data));
 

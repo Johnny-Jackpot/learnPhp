@@ -156,4 +156,20 @@ SQL;
 
         return $result->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    /**
+     * @param array $studios
+     * @param string $pathname
+     * @return array
+     */
+    public function generateLinksForActorsOnStudio(array $studios, $pathname = ''): array
+    {
+        $links = [];
+        foreach ($studios as $studio) {
+            $link = $pathname . '?' . 'studio_name=' . urlencode($studio['name']);
+            $links[] = ['name' => $link];
+        }
+
+        return $links;
+    }
 }

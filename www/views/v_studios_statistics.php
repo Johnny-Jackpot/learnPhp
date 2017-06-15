@@ -1,9 +1,13 @@
+<div class="row">
+    <div class="col-md-4 col-md-offset-4">
+
 <?php
+    $studiosStatistics = $this->getVar('studiosStatistics');
     if(isset($studiosStatistics)
         && !empty($studiosStatistics)
         && count($studiosStatistics)):
 ?>
-    <table>
+    <table class="table table-bordered table-hover">
         <caption>Studios statistics</caption>
         <tr>
             <th>Studio</th>
@@ -25,3 +29,6 @@
 <?php else: ?>
     <p>There is no any record for studios statistics</p>
 <?php endif; ?>
+
+    </div>
+</div>
