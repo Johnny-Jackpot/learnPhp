@@ -101,6 +101,8 @@
                     event.preventDefault();
                 })
                 .click(this._updateStatistics.bind(this, null, true));
+
+
         };
 
         App.prototype._setOnpopstate = function() {
@@ -195,6 +197,19 @@
          */
         App.prototype._getStudio = function() {
             return $(this.form).serialize();
+        };
+
+        /**
+         *
+         * @param varName {string}
+         * @returns {string}
+         * @private
+         */
+        App.prototype._getQueryVar = function(varName) {
+            var queryStr = decodeURI(window.location.search) + '&';
+            var regex = new RegExp('.*?[&\\?]' + varName + '=(.*?)&.*');
+            var val = queryStr.replace(regex, "$1");
+            return queryStr === val ? '' : val;
         };
 
         /***********************************************/
