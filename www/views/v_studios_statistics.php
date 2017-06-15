@@ -1,11 +1,11 @@
+<?php /** @var \Components\View $this */ ?>
+
 <div class="row">
     <div class="col-md-4 col-md-offset-4">
 
 <?php
     $studiosStatistics = $this->getVar('studiosStatistics');
-    if(isset($studiosStatistics)
-        && !empty($studiosStatistics)
-        && count($studiosStatistics)):
+    if(count($studiosStatistics)):
 ?>
     <table class="table table-bordered table-hover">
         <caption>Studios statistics</caption>

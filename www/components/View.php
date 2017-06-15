@@ -12,7 +12,7 @@ class View
     /**
      * @var string Path to file
      */
-    protected $view = '';
+    protected $layout = '';
 
     /**
      * @var array
@@ -22,12 +22,12 @@ class View
     /**
      * View constructor.
      * @param string $template Path to file
-     * @param string $view Path to file
+     * @param string $layout Path to file
      */
-    public function __construct(string $template, string $view = '')
+    public function __construct(string $template, string $layout = '')
     {
-        $this->template = $template;
-        $this->view = $view;
+        $this->template = $this->preparePathToFile($template);
+        $this->layout = $this->preparePathToFile($layout);
     }
 
     /**
@@ -50,17 +50,17 @@ class View
     }
 
     /**
-     * Embed view into template
+     * Embed layout into template
      */
     public function renderView()
     {
-        if (!empty($this->view)) {
-            include $this->view;
+        if (!empty($this->layout)) {
+            include $this->layout;
         }
     }
 
     /**
-     * Embed piece of html into view
+     * Embed piece of html into layout
      * @param string $block Path to file
      */
     public function renderBlock(string $block = '')
@@ -81,19 +81,23 @@ class View
 
             $data = $this->data[$name];
 
-            if (null !== $data || ($data === null && !$default)) {
+            if (null !== $data || (null === $data && !$default)) {
                 return $data;
-            }
-
-            if (is_numeric($default)) {
-                return (float) $default;
-            } elseif (is_array($default)) {
-                $data = (array) $default;
             }
 
             return $data;
         }
 
-        return null;
+        return $default;
+    }
+
+    /**
+     * Replace '/' with DIRECTORY_SEPARATOR
+     * @param string $path  Path to file
+     * @return string
+     */
+    protected function preparePathToFile(string $path): string
+    {
+        return str_replace('/', DIRECTORY_SEPARATOR, $path);
     }
 }

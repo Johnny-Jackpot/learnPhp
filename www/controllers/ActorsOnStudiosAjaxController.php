@@ -4,8 +4,6 @@ namespace Controllers;
 
 use Components\Http\JsonResponse;
 use Components\Http\ResponseInterface;
-use Components\Http\HtmlResponse;
-use Components\View;
 
 class ActorsOnStudiosAjaxController extends AbstractController
 {
@@ -17,15 +15,8 @@ class ActorsOnStudiosAjaxController extends AbstractController
     public function execute(): ResponseInterface
     {
         if (!$this->isXHR()) {
-            $template = $this->preparePathToFile(ROOT . '/templates/main.php');
-            $view = $this->preparePathToFile(ROOT . '/views/v_501_not_implemented.php');
-            $view = new View($template, $view);
-            $response = new HtmlResponse();
-
-            return $response->setHeader('HTTP/1.1 501 Not Implemented', true, 403)
-                            ->setBody($view->render());
+            return $this->response501notImplemented();
         }
-
         $data = $this->getStatistics();
         $response = new JsonResponse();
 

@@ -1,11 +1,11 @@
+<?php /** @var \Components\View $this */ ?>
+
 <div class="row">
     <div class="col-md-4 col-md-offset-4">
 
 <?php
     $nonNameSakeActors = $this->getVar('nonNameSakeActors');
-    if(isset($nonNameSakeActors)
-        && !empty($nonNameSakeActors)
-        && count($nonNameSakeActors)):
+    if(count($nonNameSakeActors)):
 ?>
     <table class="table table-bordered table-hover">
         <caption>Actors who hasn't namesakes</caption>

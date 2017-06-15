@@ -1,3 +1,5 @@
+<?php /** @var \Components\View $this */ ?>
+
 <!doctype html>
 <html lang="en">
 <head>
@@ -24,10 +26,7 @@
 </nav>
 
 <div class="container-fluid">
-    <?php
-    /** $this instanceof \Components\View() */
-    $this->renderView();
-    ?>
+    <?php $this->renderView(); ?>
 </div><!-- /.container-fluid -->
 
 <footer class="footer">

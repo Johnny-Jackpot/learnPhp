@@ -1,14 +1,13 @@
+<?php /** @var \Components\View $this */ ?>
+
 <?php
 
-$studios = $this->getVar('studios');
-$links = $this->getVar('links_to_studios');
-
-/*var_dump($studios);
-var_dump($links);*/
+    $studios = $this->getVar('studios', []);
+    $links = $this->getVar('links_to_studios', []);
 
 ?>
 
-<?php if (isset($studios) && !empty($studios) && count($studios)): ?>
+<?php if (count($studios)): ?>
     <div class="row">
         <div class="col-md-4 col-md-offset-4">
             <table class="table table-bordered table-hover">

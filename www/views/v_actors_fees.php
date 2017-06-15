@@ -1,11 +1,11 @@
+<?php /** @var \Components\View $this */ ?>
+
 <div class="row">
     <div class="col-md-4 col-md-offset-4">
 
 <?php
     $actorsFees = $this->getVar('actorsFees');
-    if(isset($actorsFees)
-        && !empty($actorsFees)
-        && count($actorsFees)):
+    if(count($actorsFees)):
 ?>
     <table class="table table-bordered table-hover">
         <caption>Actors fees who are from <?php echo $this->getVar('actorsYearsFrom'); ?> to

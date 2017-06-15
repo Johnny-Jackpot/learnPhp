@@ -1,3 +1,5 @@
+<?php /** @var \Components\View $this */ ?>
+
 <!doctype html>
 <html lang="en">
 <head>

@@ -21,10 +21,7 @@ class ActorsFeesController extends AbstractController
             'actorsYearsTo' => $actorsYearsTo,
             'actorsFees' => $actorsFees
         ];
-
-        $template = $this->preparePathToFile(ROOT . '/templates/t_main.php');
-        $view = $this->preparePathToFile(ROOT . '/views/v_actors_fees.php');
-        $view = new View($template, $view);
+        $view = new View(ROOT . '/templates/t_main.php', ROOT . '/views/v_actors_fees.php');
         $response = new HtmlResponse();
 
         return $response->setBody($view->render($data));

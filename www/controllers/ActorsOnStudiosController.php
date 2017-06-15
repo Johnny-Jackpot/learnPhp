@@ -19,21 +19,22 @@ class ActorsOnStudiosController extends AbstractController
      */
     public function execute(): ResponseInterface
     {
-        $template = $this->preparePathToFile(ROOT . '/templates/t_actors_on_studios.php');
-        $view = $this->preparePathToFile(ROOT . '/views/v_actors_on_studios.php');
-        $html = new View($template, $view);
+        $view = new View(
+            ROOT . '/templates/t_actors_on_studios.php',
+            ROOT . '/views/v_actors_on_studios.php'
+        );
         $response = new HtmlResponse();
         $data = ['studiosList' => []];
 
         $studiosList = $this->db->getStudiosList();
 
         if (!count($studiosList)) {
-            return $response->setBody($html->render($data));
+            return $response->setBody($view->render($data));
         }
 
         $data = ['studiosList' => $studiosList];
 
-        return $response->setBody($html->render($data));
+        return $response->setBody($view->render($data));
     }
 
 }

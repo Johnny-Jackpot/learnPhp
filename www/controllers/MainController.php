@@ -14,9 +14,7 @@ class MainController extends AbstractController
      */
     public function execute(): ResponseInterface
     {
-        $template = $this->preparePathToFile(ROOT . '/templates/t_main.php');
-        $view = $this->preparePathToFile(ROOT . '/views/v_main.php');
-        $view = new View($template, $view);
+        $view = new View(ROOT . '/templates/t_main.php', ROOT . '/views/v_main.php');
         $response = new HtmlResponse();
 
         $pathname = '/actors_on_studios';
