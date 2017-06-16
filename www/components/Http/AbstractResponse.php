@@ -4,6 +4,12 @@ namespace Components\Http;
 
 abstract class AbstractResponse implements ResponseInterface
 {
+    const ERROR_TEMPLATE = ROOT . '/templates/t_main.php';
+    const ERROR_LAYOUT = ROOT . '/views/500.php';
+    const ERROR_HEADER = 'HTTP/1.1 500 Internal Server Error';
+    const ERROR_REPLACE = false;
+    const ERROR_CODE = 500;
+
     /** @var string $body */
     private $body = '';
 
